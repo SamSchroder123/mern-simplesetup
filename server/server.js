@@ -1,3 +1,4 @@
+import express from "express";
 import devBundle from "./devBundle"; // comment out for production
 const app = express();
 devBundle.compile(app); // commment out for production
@@ -17,4 +18,12 @@ app.listen(port, function onStart(err) {
     console.log(err);
   }
   console.info("Server started on port %s.", port);
+});
+
+import { MongoClient } from "mongodb";
+const url =
+  process.env.MONGODB_URI || "mongodb://localhost:27017/mernSimpleSetup";
+MongoClient.connect(url, (err, db) => {
+  console.log("Connected successfully to mongodb server");
+  db.close();
 });
