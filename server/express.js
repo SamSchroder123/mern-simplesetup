@@ -1,7 +1,7 @@
 import express from "express";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
-import compression from "compression";
+import compress from "compression";
 import helmet from "helmet";
 import cors from "cors";
 
