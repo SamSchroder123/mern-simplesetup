@@ -1,38 +1,44 @@
+import express from "express";
 import config from "./../config/config";
-import app from "./express";
+import configureExpressApp from "./express";
 import devBundle from "./devBundle"; // comment out for production
 import path from "path";
-import template from "./../template";
+import Template from "./../template";
 import { MongoClient } from "mongodb";
 
-const app = app();
-devBundle.compile(app); // commment out for production
+// Initialize Express app
+const app = configureExpressApp();
 
+// Define the current working directory
 const CURRENT_WORKING_DIR = process.cwd();
+
+// Serve static files
 app.use("/dist", express.static(path.join(CURRENT_WORKING_DIR, "dist")));
 
+// Compile development bundle
+devBundle.compile(app); // comment out for production
+
+// Define routes
 app.get("/", (req, res) => {
-  res.status(200).send(template());
+  res.status(200).send(Template());
 });
 
-let port = process.env.PORT || 3000;
-app.listen(port, function onStart(err) {
-  if (err) {
-    console.log(err);
-  }
-  console.info("Server started on port %s.", port);
-});
-
-const url =
-  process.env.MONGODB_URI || "mongodb://localhost:27017/mernSimpleSetup";
-MongoClient.connect(url, (err, db) => {
-  console.log("Connected successfully to mongodb server");
-  db.close();
-});
-
+// Start the server
 app.listen(config.port, (err) => {
   if (err) {
     console.log(err);
   }
   console.info("Server started on port %s.", config.port);
+});
+
+// Connect to MongoDB
+const url =
+  process.env.MONGODB_URI || "mongodb://localhost:27017/mernSimpleSetup";
+MongoClient.connect(url, (err, db) => {
+  if (err) {
+    console.error("Failed to connect to MongoDB", err);
+  } else {
+    console.log("Connected successfully to MongoDB server");
+    db.close();
+  }
 });
