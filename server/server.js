@@ -3,8 +3,6 @@ import config from "./../config/config";
 import configureExpressApp from "./express";
 import devBundle from "./devBundle"; // comment out for production
 import path from "path";
-import Template from "./../template";
-import { MongoClient } from "mongodb";
 import mongoose from "mongoose";
 
 // Initialize Express app
