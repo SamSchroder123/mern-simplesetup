@@ -19,11 +19,6 @@ app.use("/dist", express.static(path.join(CURRENT_WORKING_DIR, "dist")));
 // Compile development bundle
 devBundle.compile(app); // comment out for production
 
-// Define routes
-app.get("/", (req, res) => {
-  res.status(200).send(Template());
-});
-
 // Start the server
 app.listen(config.port, (err) => {
   if (err) {
@@ -47,7 +42,6 @@ app.listen(config.port, (err) => {
 mongoose.Promise = global.Promise;
 mongoose.connect(config.mongoUri, {
   useNewUrlParser: true,
-  useCreateIndex: true,
   useUnifiedTopology: true,
 });
 
@@ -55,4 +49,8 @@ mongoose.connection.on("error", (err) => {
   throw new Error(
     `unable to connect to database: ${config.mongoUri}\n ${err.message}`
   );
+});
+
+mongoose.connection.once("open", () => {
+  console.log("Connected successfully to MongoDB using mongoose");
 });
