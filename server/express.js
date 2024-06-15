@@ -6,6 +6,7 @@ import helmet from "helmet";
 import cors from "cors";
 import Template from "./../template";
 import userRoutes from "./routes/user.routes";
+import authRoutes from "./routes/auth.routes";
 
 const configureExpressApp = () => {
   const app = express();
@@ -17,6 +18,7 @@ const configureExpressApp = () => {
   app.use(helmet());
   app.use(cors());
   app.use("/", userRoutes);
+  app.use("/", authRoutes);
 
   app.get("/", (req, res) => {
     res.status(200).send(Template());
