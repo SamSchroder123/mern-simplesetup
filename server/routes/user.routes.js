@@ -1,5 +1,8 @@
 import userCtrl from "../controllers/user.controller";
 import authCtrl from "../controllers/auth.controller";
+import express from "express";
+
+const router = express.Router();
 
 router.route("/api/users").post(userCtrl.create);
 router.route("/api/users").get(userCtrl.list);
@@ -12,3 +15,4 @@ router
   .get(authCtrl.requireSignin, userCtrl.read)
   .put(authCtrl.requireSignin, authCtrl.hasAuthorization, userCtrl.remove)
   .delete(authCtrl.requireSignin, authCtrl.hasAuthorization, userCtrl.remove);
+export default router;
