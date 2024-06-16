@@ -33,7 +33,10 @@ const signin = async (req, res) => {
   }
 };
 // const signout = (req, res) => { … }
-// const requireSignin = …
+const requireSignin = expressJwt({
+  secret: config.jwtSecret,
+  userProperty: "auth",
+});
 // const hasAuthorization = (req, res) => { … }
 
 export default { signin, signout, requireSignin, hasAuthorization };
